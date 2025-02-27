@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fit Lezzet - Sağlıklı Beslenme ve Fitness</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --light-color: #E8F5E9;
+            --dark-color: #1B5E20;
+            --accent-color: #FFC107;
+            --text-color: #333;
+            --light-text: #f8f8f8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text-color);
+            background-color: #000;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Mouse Takip Eden Arka Plan İçin */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(to right, #000428, #004e92);
+            opacity: 0.8;
+        }
+        
+        .cursor-follower {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.5) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+            filter: blur(10px);
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        
+        header {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(46, 125, 50, 0.9));
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-links a:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover:before {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .hero {
+            padding: 6rem 0;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.7), rgba(27, 94, 32, 0.5));
+            opacity: 0.8;
+            z-index: -1;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
+            }
+            to {
+                text-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--accent-color);
+            }
+        }
+        
+        .hero p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #ddd;
+        }
+        
+        .calculator {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 
+                        0 0 20px rgba(76, 175, 80, 0.5);
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        .calculator h2 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #ddd;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover:before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .result {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background-color: rgba(76, 175, 80, 0.2);
+            border-radius: 8px;
+            display: none;
+            border-left: 4px solid var(--accent-color);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .sections {
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.8rem;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            border-radius: 50%;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .card {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(76, 175, 80, 0.4);
+        }
+        
+        .card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(76, 175, 80, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .card:hover:before {
+            opacity: 1;
+        }
+        
+        .card-img {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        
+        .card:hover .card-img img {
+            transform: scale(1.1);
+        }
+        
+        .card-content {
+            padding: 1.8rem;
+            color: #fff;
+        }
+        
+        .card-content h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.5rem;
+        }
+        
+        .card-content p {
+            margin-bottom: 1.2rem;
+            color: #ccc;
+            font-size: 1rem;
+        }
+        
+        .card-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 1.5rem 1.5rem;
+            color: #aaa;
+            font-weight: 500;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .food-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .food-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: left;
+            padding: 1.2rem 1.5rem;
+            font-size: 1.05rem;
+        }
+        
+        .food-table td {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ddd;
+            transition: background-color 0.3s ease;
+        }
+        
+        .food-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .food-table tr:hover td {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        
+        /* Hologram stilini özelleştiren sınıf */
+        .hologram-section {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 4rem 0;
+            position: relative;
+        }
+        
+        .hologram-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+        
+        .hologram {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .hologram-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+        
+        .hologram:hover .hologram-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .hologram-front, .hologram-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(76, 175, 80, 0.5);
+        }
+        
+        .hologram-front {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        
+        .hologram-back {
+            background-color: rgba(0, 0, 0, 0.7);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        
+        .hologram-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+        
+        .hologram-animation {
+            width: 60%;
+            height: 60%;
+            position: relative;
+        }
+        
+        .hologram-animation svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 10px var(--primary-color));
+        }
+        
+        .hologram-animation path {
+            stroke: var(--primary-color);
+            stroke-width: 2;
+            fill: none;
+            animation: drawPath 3s infinite;
+        }
+        
+        @keyframes drawPath {
+            0% {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
+            }
+            50% {
+                stroke-dashoffset: 0;
+            }
+            100% {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
+            }
+        }
+        
+        .hologram-title {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .hologram-info {
+            color: #ddd;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        .hologram-stats {
+            margin-top: 1.5rem;
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .hologram-stat {
+            text-align: center;
+        }
+        
+        .hologram-stat-value {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+        }
+        
+        .hologram-stat-label {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+        
+        .footer-info {
+            max-width: 350px;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .footer-logo span {
+            color: var(--accent-color);
+        }
+        
+        .footer-links h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            position: relative;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .footer-links h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+        
+        .footer-links a:before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 1.5rem;
+        }
+        
+        .footer-links a:hover:before {
+            opacity: 1;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            color: #777;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 3rem;
+        }
+        
+        /* Animasyon Eklentileri */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .animate-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .calculator {
+                padding: 1.5rem;
+            }
+            
+            .hologram {
+                width: 250px;
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mouse Takip Eden Arka Plan Efekti -->
+    <div id="particles-js"></div>
+    <div class="cursor-follower"></div>
+    
+    <div class="content-wrapper">
+        <header>
+            <div class="container">
+                <nav>
+                    <div class="logo">
+                        Fit<span>Lezzet</span>
+                    </div>
+                    <div class="nav-links">
+                        <a href="#calculator">Kalori Hesaplama</a>
+                        <a href="#foods">Yemekler</a>
+                        <a href="#exercise">Egzersizler</a>
+                        <a href="#hologram">Hologramlar</a>
+                        <a href="#contact">İletişim</a>
+                    </div>
+                </nav>
+                
+                <div class="hero">
+                    <h1>Sağlıklı Beslenme ve Fitness Rehberi</h1>
+                    <p>Vücut tipinize göre özelleştirilmiş beslenme önerileri ve egzersiz programları ile sağlıklı yaşama adım atın.</p>
+                </div>
+            </div>
+        </header>
+        
+        <section id="calculator" class="sections">
+            <div class="container">
+                <div class="section-title animate-on-scroll">
+                    <h2>Vücut Kitle İndeksi ve Kalori İhtiyacı Hesaplama</h2>
+                </div>
+                
+                <div class="calculator animate-on-scroll">
+                    <h2>Kişisel Kalori İhtiyacınızı Hesaplayın</h2>
+                    <form id="calorie-form">
+                        <div class="form-group">
+                            <label for="gender">Cinsiyet</label>
+                            <select id="gender">
+                                <option value="male">Erkek</option>
+                                <option value="female">Kadın</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="age">Yaş</label>
+                            <input type="number" id="age" placeholder="Yaşınızı girin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="height">Boy (cm)</label>
+                            <input type="number" id="height" placeholder="Boyunuzu girin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="weight">Kilo (kg)</label>
+                            <input type="number" id="weight" placeholder="Kilonuzu girin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="activity">Aktivite Seviyesi</label>
+                            <select id="activity">
+                                <option value="1.2">Hareketsiz (Masa başı iş)</option>
+                                <option value="1.375">Hafif Aktif (Haftada 1-3 kez egzersiz)</option>
+                                <option value="1.55">Orta Aktif (Haftada 3-5 kez egzersiz)</option>
+                                <option value="1.725">Çok Aktif (Haftada 6-7 kez egzersiz)</option>
+                                <option value="1.9">Ekstra Aktif (Günde 2 kez egzersiz, ağır iş)</option>
+                            </select>
+                        </div>
+                        
+                        <button type="button" class="btn" onclick="calculateCalories()">Hesapla</button>
+                        
+                        <div class="result" id="result">
+                            <h3>Sonuçlarınız:</h3>
+                            <p><strong>Vücut Kitle İndeksi:</strong> <span id="bmi-result"></span></p>
+                            <p><strong>Günlük Kalori İhtiyacı:</strong> <span id="calorie-result"></span> kcal</p>
+                            <p><strong>Durum:</strong> <span id="status"></span></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <section id="foods" class="sections">
+            <div class="container">
+                <div class="section-title animate-on-scroll">
+                    <h2>Popüler Sağlıklı Yemekler</h2>
+                </div>
+                
+                <div class="cards animate-on-scroll">
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="/api/placeholder/400/320" alt="Izgara Tavuk Salatası">
+                        </div>
+                        <div class="card-content">
+                            <h3>Izgara Tavuk Salatası</h3>
+                            <p>Taze yeşillikler, ızgara tavuk göğsü, kiraz domates ve zeytinyağı sosu ile hazırlanan protein dolu salata.</p>
+                        </div>
+                        <div class="card-stats">
+                            <span>320 kcal</span>
+                            <span>32g protein</span>
+                            <span>14g karbonhidrat</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="/api/placeholder/400/320" alt="Kinoalı Sebze Tabağı">
+                        </div>
+                        <div class="card-content">
+                            <h3>Kinoalı Sebze Tabağı</h3>
+                            <p>Protein açısından zengin kinoa, ızgara sebzeler ve avokado ile hazırlanan besleyici ve doyurucu bir öğün.</p>
+                        </div>
+                        <div class="card-stats">
+                            <span>410 kcal</span>
+                            <span>12g protein</span>
+                            <span>45g karbonhidrat</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="/api/placeholder/400/320" alt="Mercimek Çorbası">
+                        </div>
+                        <div class="card-content">
+                            <h3>Mercimek Çorbası</h3>
+                            <p>Kırmızı mercimek, havuç, soğan ve baharatlarla hazırlanan geleneksel Türk çorbası.</p>
+                        </div>
+                        <div class="card-stats">
+                            <span>230 kcal</span>
+                            <span>13g protein</span>
+                            <span>40g karbonhidrat</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-title animate-on-scroll" style="margin-top: 5rem;">
+                    <h2>Yemek Kalori Tablosu</h2>
+                </div>
+                
+                <table class="food-table animate-on-scroll">
+                    <thead>
+                        <tr>
+                            <th>Yemek</th>
+                            <th>Porsiyon</th>
+                            <th>Kalori</th>
+                            <th>Protein</th>
+                            <th>Karbonhidrat</th>
+                            <th>Yağ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Izgara Tavuk Göğsü</td>
+                            <td>100g</td>
+                            <td>165 kcal</td>
+                            <td>31g</td>
+                            <td>0g</td>
+                            <td>3.6g</td>
+                        </tr>
+                        <tr>
+                            <td>Haşlanmış Yumurta</td>
+                            <td>1 adet</td>
+                            <td>78 kcal</td>
+                            <td>6.3g</td>
+                            <td>0.6g</td>
+                            <td>5.3g</td>
+                        </tr>
+                        <tr>
+                            <td>Yeşil Mercimek</td>
+                            <td>100g (pişmiş)</td>
+                            <td>116 kcal</td>
+                            <td>9g</td>
+                            <td>20g</td>
+                            <td>0.4g</td>
+                        </tr>
+                        <tr>
+                            <td>Kinoa</td>
+                            <td>100g (pişmiş)</td>
+                            <td>120 kcal</td>
+                            <td>4.4g</td>
+                            <td>21.3g</td>
+                            <td>1.9g</td>
+                        </tr>
+                        <tr>
+                            <td>Avokado</td>
+                            <td>100g</td>
+                            <td>160 kcal</td>
+                            <td>2g</td>
+                            <td>8.5g</td>
+                            <td>14.7g</td>
+                        </tr>
+                        <tr>
+                            <td>Yulaf Ezmesi</td>
+                            <td>100g (pişmiş)</td>
+                            <td>71 kcal</td>
+                            <td>2.5g</td>
+                            <td>12g</td>
+                            <td>1.5g</td>
+                        </tr>
+                        <tr>
+                            <td>Lor Peyniri</td>
+                            <td>100g</td>
+                            <td>98 kcal</td>
+                            <td>11g</td>
+                            <td>3.4g</td>
+                            <td>4.3g</td>
+                        </tr>
+                        <tr>
+                            <td>Taze Sıkılmış Portakal Suyu</td>
+                            <td>200ml</td>
+                            <td>90 kcal</td>
+                            <td>1.5g</td>
+                            <td>21g</td>
+                            <td>0.2g</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- HOLOGRAM EGZERSIZ BÖLÜMÜ -->
+        <section id="hologram" class="hologram-section sections">
+            <div class="container">
+                <div class="section-title animate-on-scroll">
+                    <h2>Holografik Egzersiz Rehberi</h2>
+                </div>
+                
+                <div class="hologram-container">
+                    <!-- Hologram 1: Squat -->
+                    <div class="hologram animate-on-scroll">
+                        <div class="hologram-inner">
+                            <div class="hologram-front">
+                                <div class="hologram-animation">
+                                    <div style="display: flex; justify-content: center; align-items: center; height: 100%; font-size: 4rem; color: rgba(76, 175, 80, 0.8);">
+                                        🏋️
+                                    </div>
+                                </div>
+                                <div class="hologram-title">Squat</div>
+                            </div>
+                            <div class="hologram-back">
+                                <h3 class="hologram-title">Squats (Çömelme)</h3>
+                                <p class="hologram-info">Alt vücut gücünü geliştirmek için mükemmel bir egzersizdir. Doğru teknikle yapıldığında kalça, baldır ve karın kaslarınızı güçlendirir.</p>
+                                <div class="hologram-stats">
+                                    <div class="hologram-stat">
+                                        <div class="hologram-stat-value">250</div>
+                                        <div class="hologram-stat-label">kcal/saat</div>
+                                    </div>
+                                    <div class="hologram-stat">
+                                        <div class="hologram-stat-value">★★★</div>
+                                        <div class="hologram-stat-label">Zorluk</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hologram 2: Push-up -->
+                    <div class="hologram animate-on-scroll">
+                        <div class="hologram-inner">
+                            <div class="hologram-front">
+                                <div class="hologram-animation">
+                                    <div style="display: flex; justify-content: center; align-items: center; height: 100%; font-size: 4rem; color: rgba(76, 175, 80, 0.8);">
+                                        🤸
+                                    </div>
+                                </div>
+                                <div class="hologram-title">Push-up</div>
+                            </div>
+                            <div class="hologram-back">
+                                <h3 class="hologram-title">Push-up (Şınav)</h3>
+                                <p class="hologram-info">Göğüs, omuz, triceps, sırt ve karın kaslarını çalıştıran etkili bir vücut ağırlığı egzersizidir. Fitness seviyenize göre çeşitli varyasyonları vardır.</p>
+                                <div class="hologram-stats">
+                                    <div class="hologram-stat">
+                                        <div class="hologram-stat-value">200</div>
+                                        <div class="hologram-stat-label">kcal/saat</div>
+                                    </div>
+                                    <div class="hologram-stat">
+                                        <div class="hologram-stat-value">★★★★</div>
+                                        <div class="hologram-stat-label">Zorluk</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hologram 3: Plank -->
+                    <div class="hologram animate-on-scroll">
+                        <div class="hologram-inner">
+                            <div class="hologram-front">
+                                <div class="hologram-animation">
+                                    <div style="display: flex; justify-content: center; align-items: center; height: 100%; font-size: 4rem; color: rgba(76, 175, 80, 0.8);">
+                                        🧘
+                                    </div>
+                                </div>
+                                <div class="hologram-title">Plank</div>
+                            </div>
+                            <div class="hologram-back">
+                                <h3 class="hologram-title">Plank</h3>
+                                <p class="hologram-info">Karın, sırt ve omuzları güçlendiren statik bir egzersizdir. Duruş ve stabiliteyi iyileştirir, dengeli bir core gelişimi sağlar.</p>
+                                <div class="hologram-stats">
+                                    <div class="hologram-stat">
+                                        <div class="hologram-stat-value">180</div>
+                                        <div class="hologram-stat-label">kcal/saat</div>
+                                    </div>
+                                    <div class="hologram-stat">
+                                        <div class="hologram-stat-value">★★★</div>
+                                        <div class="hologram-stat-label">Zorluk</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interaktif 3D Egzersiz Görselleştirici -->
+                <div class="section-title animate-on-scroll" style="margin-top: 5rem;">
+                    <h2>Interaktif 3D Egzersiz Görselleştirici</h2>
+                </div>
+                
+                <div class="calculator glass-effect animate-on-scroll">
+                    <h3 style="color: var(--accent-color); margin-bottom: 1rem; text-align: center;">
+                        Vücut Bölgesini Seçin
+                    </h3>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 2rem;">
+                        <button class="btn body-part-btn" style="width: auto; padding: 0.8rem 1.5rem;" data-part="chest">Göğüs</button>
+                        <button class="btn body-part-btn" style="width: auto; padding: 0.8rem 1.5rem;" data-part="back">Sırt</button>
+                        <button class="btn body-part-btn" style="width: auto; padding: 0.8rem 1.5rem;" data-part="legs">Bacaklar</button>
+                        <button class="btn body-part-btn" style="width: auto; padding: 0.8rem 1.5rem;" data-part="arms">Kollar</button>
+                        <button class="btn body-part-btn" style="width: auto; padding: 0.8rem 1.5rem;" data-part="abs">Karın</button>
+                    </div>
+                    
+                    <div id="exercise-display" style="min-height: 300px; display: flex; justify-content: center; align-items: center;">
+                        <p style="color: #aaa;">Bir vücut bölgesi seçin</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Standart Egzersiz Bölümü -->
+        <section id="exercise" class="sections">
+            <div class="container">
+                <div class="section-title animate-on-scroll">
+                    <h2>Egzersiz Programları ve Öneriler</h2>
+                </div>
+                
+                <div class="cards animate-on-scroll">
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="/api/placeholder/400/320" alt="Kardiyovasküler Egzersizler">
+                        </div>
+                        <div class="card-content">
+                            <h3>Kardiyovasküler Egzersizler</h3>
+                            <p>Kalp-damar sağlığınızı iyileştirir, kalori yakımını artırır ve dayanıklılığınızı geliştirir.</p>
+                            <ul style="margin-top: 1rem; color: #aaa; padding-left: 1.2rem;">
+                                <li>Koşu</li>
+                                <li>Yüzme</li>
+                                <li>Bisiklet</li>
+                                <li>HIIT</li>
+                            </ul>
+                        </div>
+                        <div class="card-stats">
+                            <span>400-800 kcal/saat</span>
+                            <span>Zorluk: ★★★</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="/api/placeholder/400/320" alt="Kuvvet Antrenmanı">
+                        </div>
+                        <div class="card-content">
+                            <h3>Kuvvet Antrenmanı</h3>
+                            <p>Kas kütlesini artırır, metabolizmayı hızlandırır ve fonksiyonel gücü geliştirir.</p>
+                            <ul style="margin-top: 1rem; color: #aaa; padding-left: 1.2rem;">
+                                <li>Ağırlık kaldırma</li>
+                                <li>Vücut ağırlığı egzersizleri</li>
+                                <li>Direnç bandı çalışmaları</li>
+                            </ul>
+                        </div>
+                        <div class="card-stats">
+                            <span>200-400 kcal/saat</span>
+                            <span>Zorluk: ★★★★</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="/api/placeholder/400/320" alt="Esneklik ve Denge">
+                        </div>
+                        <div class="card-content">
+                            <h3>Esneklik ve Denge</h3>
+                            <p>Eklem hareket açıklığını artırır, yaralanmaları önler ve genel vücut kontrolünü geliştirir.</p>
+                            <ul style="margin-top: 1rem; color: #aaa; padding-left: 1.2rem;">
+                                <li>Yoga</li>
+                                <li>Pilates</li>
+                                <li>Germe egzersizleri</li>
+                                <li>Tai Chi</li>
+                            </ul>
+                        </div>
+                        <div class="card-stats">
+                            <span>150-300 kcal/saat</span>
+                            <span>Zorluk: ★★</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Kişiselleştirilmiş Program Oluşturucu -->
+                <div class="section-title animate-on-scroll" style="margin-top: 5rem;">
+                    <h2>Kişiselleştirilmiş Program Oluşturucu</h2>
+                </div>
+                
+                <div class="calculator glass-effect animate-on-scroll">
+                    <h3 style="color: var(--accent-color); margin-bottom: 1.5rem; text-align: center;">
+                        Hedeflerinize Uygun Program Oluşturun
+                    </h3>
+                    
+                    <form id="program-form">
+                        <div class="form-group">
+                            <label for="goal">Fitness Hedefiniz</label>
+                            <select id="goal">
+                                <option value="weight-loss">Kilo Vermek</option>
+                                <option value="muscle-gain">Kas Kazanmak</option>
+                                <option value="endurance">Dayanıklılık Geliştirmek</option>
+                                <option value="flexibility">Esneklik Kazanmak</option>
+                                <option value="general">Genel Sağlık</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="experience">Deneyim Seviyeniz</label>
+                            <select id="experience">
+                                <option value="beginner">Başlangıç</option>
+                                <option value="intermediate">Orta</option>
+                                <option value="advanced">İleri</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="days">Haftada Kaç Gün Egzersiz Yapabilirsiniz?</label>
+                            <select id="days">
+                                <option value="2">2 gün</option>
+                                <option value="3">3 gün</option>
+                                <option value="4">4 gün</option>
+                                <option value="5">5 gün</option>
+                                <option value="6">6 gün</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Tercih Ettiğiniz Egzersiz Türleri</label>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.8rem;">
+                                <div>
+                                    <input type="checkbox" id="cardio" value="cardio">
+                                    <label for="cardio" style="display: inline-block; margin-left: 0.5rem;">Kardiyo</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="weights" value="weights">
+                                    <label for="weights" style="display: inline-block; margin-left: 0.5rem;">Ağırlık</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="bodyweight" value="bodyweight">
+                                    <label for="bodyweight" style="display: inline-block; margin-left: 0.5rem;">Vücut Ağırlığı</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="yoga" value="yoga">
+                                    <label for="yoga" style="display: inline-block; margin-left: 0.5rem;">Yoga/Pilates</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn" onclick="generateProgram()">Program Oluştur</button>
+                        
+                        <div class="result" id="program-result" style="display: none;">
+                            <h3 style="color: var(--accent-color); margin-bottom: 1rem;">Önerilen Program:</h3>
+                            <div id="program-content"></div>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Yeni Özellik: Kalori Yakma Hesaplayıcı -->
+                <div class="section-title animate-on-scroll" style="margin-top: 5rem;">
+                    <h2>Kalori Yakma Hesaplayıcı</h2>
+                </div>
+                
+                <div class="calculator glass-effect animate-on-scroll">
+                    <h3 style="color: var(--accent-color); margin-bottom: 1.5rem; text-align: center;">
+                        Egzersizlerde Ne Kadar Kalori Yakıyorsunuz?
+                    </h3>
+                    
+                    <form id="calorie-burn-form">
+                        <div class="form-group">
+                            <label for="exercise-type">Egzersiz Türü</label>
+                            <select id="exercise-type">
+                                <option value="running">Koşu</option>
+                                <option value="cycling">Bisiklet</option>
+                                <option value="swimming">Yüzme</option>
+                                <option value="weight-training">Ağırlık Antrenmanı</option>
+                                <option value="yoga">Yoga</option>
+                                <option value="pilates">Pilates</option>
+                                <option value="dancing">Dans</option>
+                                <option value="hiking">Yürüyüş</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exercise-duration">Süre (dakika)</label>
+                            <input type="number" id="exercise-duration" placeholder="Egzersiz süresini girin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exercise-intensity">Yoğunluk</label>
+                            <select id="exercise-intensity">
+                                <option value="low">Düşük</option>
+                                <option value="moderate" selected>Orta</option>
+                                <option value="high">Yüksek</option>
+                            </select>
+                        </div>
+                        
+                        <button type="button" class="btn" onclick="calculateCalorieBurn()">Hesapla</button>
+                        
+                        <div class="result" id="calorie-burn-result" style="display: none;">
+                            <h3>Sonuç:</h3>
+                            <p><strong>Yakılan Tahmini Kalori:</strong> <span id="burned-calories"></span> kcal</p>
+                            <p><strong>Eşdeğer Yiyecek:</strong> <span id="food-equivalent"></span></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Yeni Özellik: Sağlıklı Alışveriş Listesi Oluşturucu -->
+        <section class="sections" style="background-color: rgba(0, 0, 0, 0.7);">
+            <div class="container">
+                <div class="section-title animate-on-scroll">
+                    <h2>Sağlıklı Alışveriş Listesi Oluşturucu</h2>
+                </div>
+                
+                <div class="calculator glass-effect animate-on-scroll">
+                    <h3 style="color: var(--accent-color); margin-bottom: 1.5rem; text-align: center;">
+                        Beslenme Hedefinize Uygun Alışveriş Listesi
+                    </h3>
+                    
+                    <form id="shopping-list-form">
+                        <div class="form-group">
+                            <label for="diet-type">Beslenme Tipi</label>
+                            <select id="diet-type">
+                                <option value="balanced">Dengeli Beslenme</option>
+                                <option value="low-carb">Düşük Karbonhidratlı</option>
+                                <option value="high-protein">Yüksek Proteinli</option>
+                                <option value="vegetarian">Vejetaryen</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="keto">Ketojenik</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="budget">Bütçe Seviyesi</label>
+                            <select id="budget">
+                                <option value="economy">Ekonomik</option>
+                                <option value="moderate" selected>Orta</option>
+                                <option value="premium">Premium</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Alerjiler veya Kaçınılması Gerekenler</label>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.8rem;">
+                                <div>
+                                    <input type="checkbox" id="gluten" value="gluten">
+                                    <label for="gluten" style="display: inline-block; margin-left: 0.5rem;">Gluten</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="lactose" value="lactose">
+                                    <label for="lactose" style="display: inline-block; margin-left: 0.5rem;">Laktoz</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="nuts" value="nuts">
+                                    <label for="nuts" style="display: inline-block; margin-left: 0.5rem;">Kuruyemiş</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="soy" value="soy">
+                                    <label for="soy" style="display: inline-block; margin-left: 0.5rem;">Soya</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="shellfish" value="shellfish">
+                                    <label for="shellfish" style="display: inline-block; margin-left: 0.5rem;">Deniz Ürünleri</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="eggs" value="eggs">
+                                    <label for="eggs" style="display: inline-block; margin-left: 0.5rem;">Yumurta</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn" onclick="generateShoppingList()">Liste Oluştur</button>
+                        
+                        <div class="result" id="shopping-list-result" style="display: none;">
+                            <h3 style="color: var(--accent-color); margin-bottom: 1rem;">Alışveriş Listeniz:</h3>
+                            <div id="shopping-list-content"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <footer id="contact">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <div class="footer-logo">
+                            Fit<span>Lezzet</span>
+                        </div>
+                        <p>Sağlıklı beslenme ve fitness konularında uzman ekibimizle yanınızdayız. Kişiselleştirilmiş beslenme ve egzersiz planları için bize ulaşın.</p>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <h3>Hızlı Bağlantılar</h3>
+                        <ul>
+                            <li><a href="#calculator">Kalori Hesaplama</a></li>
+                            <li><a href="#foods">Yemekler</a></li>
+                            <li><a href="#hologram">Hologramlar</a></li>
+                            <li><a href="#exercise">Egzersizler</a></li>
+                            <li><a href="#">Hakkımızda</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <h3>İletişim</h3>
+                        <ul>
+                            <li><a href="mailto:info@fitlezzet.com">info@fitlezzet.com</a></li>
+                            <li><a href="tel:+905001234567">0500 123 45 67</a></li>
+                            <li><a href="#">Adres: Sağlık Caddesi No:123 İstanbul</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <h3>Bizi Takip Edin</h3>
+                        <ul>
+                            <li><a href="#">Instagram</a></li>
+                            <li><a href="#">Facebook</a></li>
+                            <li><a href="#">YouTube</a></li>
+                            <li><a href="#">Twitter</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    <p>&copy; 2025 FitLezzet. Tüm hakları saklıdır.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // Mouse Takip Eden Arka Plan Efekti
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursorFollower = document.querySelector('.cursor-follower');
+            
+            document.addEventListener('mousemove', function(e) {
+                cursorFollower.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+                
+                // Renk değişimi ekleme
+                const hue = (e.clientX / window.innerWidth) * 60 + 100; // 100-160 arası yeşil tonları
+                cursorFollower.style.background = `radial-gradient(circle, hsla(${hue}, 80%, 50%, 0.5) 0%, rgba(0, 0, 0, 0) 70%)`;
+            });
+            
+            // Scroll animasyonları
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            function checkScroll() {
+                animateElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight * 0.9) {
+                        element.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', checkScroll);
+            checkScroll(); // İlk yükleme için kontrol
+            
+            // Hologram animasyonları
+            animateHolograms();
+        });
+        
+        // Kalori Hesaplama Fonksiyonu
+        function calculateCalories() {
+            // Formdan değerleri al
+            const gender = document.getElementById('gender').value;
+            const age = parseInt(document.getElementById('age').value);
+            const height = parseInt(document.getElementById('height').value);
+            const weight = parseInt(document.getElementById('weight').value);
+            const activity = parseFloat(document.getElementById('activity').value);
+            
+            // Değerler girilmiş mi kontrol et
+            if (!age || !height || !weight) {
+                alert('Lütfen tüm alanları doldurun!');
+                return;
+            }
+            
+            // BMI hesapla
+            const bmi = weight / ((height / 100) * (height / 100));
+            
+            // BMI değerlendirmesi
+            let status = '';
+            if (bmi < 18.5) {
+                status = 'Zayıf';
+            } else if (bmi >= 18.5 && bmi < 25) {
+                status = 'Normal';
+            } else if (bmi >= 25 && bmi < 30) {
+                status = 'Kilolu';
+            } else {
+                status = 'Obez';
+            }
+            
+            // BMR (Bazal Metabolizma Hızı) hesapla - Harris-Benedict denklemi
+            let bmr = 0;
+            if (gender === 'male') {
+                bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+            } else {
+                bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+            }
+            
+            // Günlük kalori ihtiyacı
+            const dailyCalories = Math.round(bmr * activity);
+            
+            // Sonuçları göster
+            document.getElementById('bmi-result').textContent = bmi.toFixed(1);
+            document.getElementById('calorie-result').textContent = dailyCalories;
+            document.getElementById('status').textContent = status;
+            
+            // Sonuç bölümünü animasyonla göster
+            const resultElement = document.getElementById('result');
+            resultElement.style.display = 'block';
+            resultElement.style.animation = 'fadeIn 0.5s ease';
+        }
+        
+        // Hologram Animasyonları
+        function animateHolograms() {
+            // Emoji animasyonları
+            const hologramEmojis = document.querySelectorAll('.hologram-animation');
+            if (hologramEmojis) {
+                hologramEmojis.forEach(emoji => {
+                    setInterval(() => {
+                        // Basit bir pulsasyon efekti
+                        emoji.style.transform = emoji.style.transform === 'scale(1.1)' ? 'scale(1)' : 'scale(1.1)';
+                        emoji.style.transition = 'transform 1s ease';
+                    }, 2000);
+                });
+            }
+        }
+        
+        // 3D Egzersiz Görselleştirici
+        document.addEventListener('DOMContentLoaded', function() {
+            const bodyPartButtons = document.querySelectorAll('.body-part-btn');
+            const exerciseDisplay = document.getElementById('exercise-display');
+            
+            if (bodyPartButtons && exerciseDisplay) {
+                bodyPartButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const bodyPart = this.getAttribute('data-part');
+                        showExercises(bodyPart);
+                        
+                        // Aktif düğme görsel efekti
+                        bodyPartButtons.forEach(btn => btn.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+            }
+        });
+        
+        function showExercises(bodyPart) {
+            const exerciseDisplay = document.getElementById('exercise-display');
+            
+            // Egzersiz verileri (gerçek uygulamada bir API'dan alınabilir)
+            const exercises = {
+                'chest': [
+                    { name: 'Bench Press', calories: '300 kcal/saat', difficulty: '★★★★' },
+                    { name: 'Push-up', calories: '200 kcal/saat', difficulty: '★★★' },
+                    { name: 'Dumbbell Fly', calories: '250 kcal/saat', difficulty: '★★' }
+                ],
+                'back': [
+                    { name: 'Pull-up', calories: '280 kcal/saat', difficulty: '★★★★★' },
+                    { name: 'Bent Over Row', calories: '250 kcal/saat', difficulty: '★★★' },
+                    { name: 'Lat Pulldown', calories: '240 kcal/saat', difficulty: '★★★' }
+                ],
+                'legs': [
+                    { name: 'Squat', calories: '350 kcal/saat', difficulty: '★★★★' },
+                    { name: 'Lunges', calories: '280 kcal/saat', difficulty: '★★★' },
+                    { name: 'Leg Press', calories: '300 kcal/saat', difficulty: '★★★' }
+                ],
+                'arms': [
+                    { name: 'Bicep Curl', calories: '200 kcal/saat', difficulty: '★★' },
+                    { name: 'Tricep Extension', calories: '180 kcal/saat', difficulty: '★★' },
+                    { name: 'Hammer Curl', calories: '190 kcal/saat', difficulty: '★★' }
+                ],
+                'abs': [
+                    { name: 'Crunch', calories: '150 kcal/saat', difficulty: '★★' },
+                    { name: 'Plank', calories: '180 kcal/saat', difficulty: '★★★' },
+                    { name: 'Russian Twist', calories: '160 kcal/saat', difficulty: '★★★' }
+                ]
+            };
+            
+            if (exercises[bodyPart]) {
+                let html = `
+                    <div style="width: 100%;">
+                        <h3 style="color: var(--accent-color); margin-bottom: 1.5rem; text-align: center;">
+                            ${getBodyPartName(bodyPart)} İçin Önerilen Egzersizler
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                `;
+                
+                exercises[bodyPart].forEach(exercise => {
+                    html += `
+                        <div class="glass-effect" style="padding: 1.5rem; border-radius: 10px; position: relative; overflow: hidden;">
+                            <h4 style="color: white; margin-bottom: 1rem;">${exercise.name}</h4>
+                            <p style="color: #aaa; margin-bottom: 0.5rem;"><strong>Kalori:</strong> ${exercise.calories}</p>
+                            <p style="color: #aaa;"><strong>Zorluk:</strong> ${exercise.difficulty}</p>
+                            <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, rgba(76, 175, 80, 0.3) 0%, rgba(0, 0, 0, 0) 70%);"></div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+                
+                exerciseDisplay.innerHTML = html;
+                
+                // Animasyon ekleme
+                exerciseDisplay.style.animation = 'fadeIn 0.5s ease';
+            }
+        }
+        
+        function getBodyPartName(bodyPart) {
+            const names = {
+                'chest': 'Göğüs',
+                'back': 'Sırt',
+                'legs': 'Bacaklar',
+                'arms': 'Kollar',
+                'abs': 'Karın'
+            };
+            
+            return names[bodyPart] || bodyPart;
+        }
+        
+        // Kişiselleştirilmiş Program Oluşturucu
+        function generateProgram() {
+            const goal = document.getElementById('goal').value;
+            const experience = document.getElementById('experience').value;
+            const days = document.getElementById('days').value;
+            
+            // Checkbox değerlerini al
+            const selectedExercises = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                if (checkbox.id === 'cardio' || checkbox.id === 'weights' || 
+                    checkbox.id === 'bodyweight' || checkbox.id === 'yoga') {
+                    selectedExercises.push(checkbox.value);
+                }
+            });
+            
+            // En az bir egzersiz türü seçilmeli
+            if (selectedExercises.length === 0) {
+                alert('Lütfen en az bir egzersiz türü seçin!');
+                return;
+            }
+            
+            // Program oluşturma (gerçek bir uygulamada daha karmaşık bir algoritma kullanılabilir)
+            const programContent = document.getElementById('program-content');
+            
+            // Program tanımı
+            let program = `<p style="margin-bottom: 1.5rem; color: #ddd;">
+                Sizin için <strong>${getGoalName(goal)}</strong> hedefine yönelik, 
+                <strong>${getExperienceName(experience)}</strong> seviyesi için, haftada
+                <strong>${days} gün</strong> antrenman içeren bir program oluşturduk.
+            </p>`;
+            
+            // Haftalık program tablosu
+            program += `
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <thead>
+                        <tr>
+                            <th style="padding: 0.8rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); text-align: left; color: var(--accent-color);">Gün</th>
+                            <th style="padding: 0.8rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); text-align: left; color: var(--accent-color);">Antrenman</th>
+                            <th style="padding: 0.8rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); text-align: left; color: var(--accent-color);">Süre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            // Seçilen gün sayısına göre program oluştur
+            const workoutDays = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+            const usedDays = workoutDays.slice(0, days);
+            
+            // Her hedef ve deneyim seviyesi için farklı program öner
+            const workouts = generateWorkouts(goal, experience, selectedExercises, days);
+            
+            usedDays.forEach((day, index) => {
+                program += `
+                    <tr>
+                        <td style="padding: 0.8rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #ddd;">${day}</td>
+                        <td style="padding: 0.8rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #ddd;">${workouts[index].workout}</td>
+                        <td style="padding: 0.8rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #ddd;">${workouts[index].duration}</td>
+                    </tr>
+                `;
+            });
+            
+            program += `
+                    </tbody>
+                </table>
+                
+                <p style="color: #ddd;">
+                    <strong>İpucu:</strong> Her antrenmandan önce 5-10 dakikalık ısınma ve sonrasında 5-10 dakikalık soğuma egzersizleri yapmayı unutmayın.
+                </p>
+            `;
+            
+            programContent.innerHTML = program;
+            document.getElementById('program-result').style.display = 'block';
+        }
+        
+        function getGoalName(goal) {
+            const goals = {
+                'weight-loss': 'Kilo Verme',
+                'muscle-gain': 'Kas Kazanma',
+                'endurance': 'Dayanıklılık Geliştirme',
+                'flexibility': 'Esneklik Kazanma',
+                'general': 'Genel Sağlık'
+            };
+            
+            return goals[goal] || goal;
+        }
+        
+        function getExperienceName(experience) {
+            const experiences = {
+                'beginner': 'Başlangıç',
+                'intermediate': 'Orta',
+                'advanced': 'İleri'
+            };
+            
+            return experiences[experience] || experience;
+        }
+        
+        function generateWorkouts(goal, experience, selectedExercises, days) {
+            // Örnek workoutlar - gerçek bir uygulamada daha karmaşık bir sistem olabilir
+            const workouts = [];
+            
+            // Kilo verme hedefi için
+            if (goal === 'weight-loss') {
+                if (selectedExercises.includes('cardio')) {
+                    workouts.push({workout: 'HIIT Kardiyovasküler Antrenman', duration: '30-45 dk'});
+                }
+                if (selectedExercises.includes('weights')) {
+                    workouts.push({workout: 'Yüksek Tekrarlı Ağırlık Çalışması', duration: '40-50 dk'});
+                }
+                if (selectedExercises.includes('bodyweight')) {
+                    workouts.push({workout: 'Vücut Ağırlığı Circuit Antrenmanı', duration: '30-40 dk'});
+                }
+            }
+            
+            // Kas kazanma hedefi için
+            else if (goal === 'muscle-gain') {
+                if (selectedExercises.includes('weights')) {
+                    workouts.push({workout: 'Üst Vücut Ağırlık Antrenmanı', duration: '45-60 dk'});
+                    workouts.push({workout: 'Alt Vücut Ağırlık Antrenmanı', duration: '45-60 dk'});
+                    workouts.push({workout: 'Tüm Vücut Ağırlık Antrenmanı', duration: '60-75 dk'});
+                }
+                if (selectedExercises.includes('bodyweight')) {
+                    workouts.push({workout: 'İleri Seviye Vücut Ağırlığı Egzersizleri', duration: '40-50 dk'});
+                }
+            }
+            
+            // Diğer hedefler için
+            else if (goal === 'endurance') {
+                if (selectedExercises.includes('cardio')) {
+                    workouts.push({workout: 'Uzun Mesafe Koşu/Yürüyüş', duration: '45-60 dk'});
+                    workouts.push({workout: 'İnterval Koşu', duration: '30-40 dk'});
+                }
+                if (selectedExercises.includes('weights') || selectedExercises.includes('bodyweight')) {
+                    workouts.push({workout: 'Dayanıklılık Circuit Antrenmanı', duration: '40-50 dk'});
+                }
+            }
+            
+            // Eksik günleri doldur
+            while (workouts.length < days) {
+                if (selectedExercises.includes('yoga')) {
+                    workouts.push({workout: 'Yoga/Pilates/Esneklik Çalışması', duration: '30-45 dk'});
+                } else if (selectedExercises.includes('cardio')) {
+                    workouts.push({workout: 'Hafif Tempo Kardiyovasküler Çalışma', duration: '30-40 dk'});
+                } else {
+                    workouts.push({workout: 'Aktif Dinlenme / Yürüyüş', duration: '30-40 dk'});
+                }
+            }
+            
+            // Deneyim seviyesine göre ayarla
+            if (experience === 'beginner') {
+                workouts.forEach(workout => {
+                    workout.workout += ' (Başlangıç)';
+                    
+                    // Süreler kısaltılabilir
+                    const duration = workout.duration.split('-');
+                    if (duration.length === 2) {
+                        const min = parseInt(duration[0]);
+                        workout.duration = `${min - 10}-${duration[1]}`;
+                    }
+                });
+            } else if (experience === 'advanced') {
+                workouts.forEach(workout => {
+                    workout.workout += ' (İleri)';
+                    
+                    // Süreler uzatılabilir
+                    const duration = workout.duration.split('-');
+                    if (duration.length === 2) {
+                        const max = parseInt(duration[1]);
+                        workout.duration = `${duration[0]}-${max + 10} dk`;
+                    }
+                });
+            }
+            
+            // Karıştır ve ilk "days" kadarını döndür
+            return workouts.slice(0, days);
+        }
+        
+        // Kalori Yakma Hesaplayıcı
+        function calculateCalorieBurn() {
+            const exerciseType = document.getElementById('exercise-type').value;
+            const duration = parseInt(document.getElementById('exercise-duration').value);
+            const intensity = document.getElementById('exercise-intensity').value;
+            
+            if (!duration || duration <= 0) {
+                alert('Lütfen geçerli bir süre girin!');
+                return;
+            }
+            
+            // MET değerleri (Metabolic Equivalent of Task)
+            // Gerçek bir uygulamada daha ayrıntılı MET tabloları kullanılabilir
+            const metValues = {
+                'running': {low: 8, moderate: 11.5, high: 14},
+                'cycling': {low: 4, moderate: 8, high: 12},
+                'swimming': {low: 6, moderate: 8.3, high: 10},
+                'weight-training': {low: 3, moderate: 5, high: 6},
+                'yoga': {low: 2.5, moderate: 3, high: 4},
+                'pilates': {low: 3, moderate: 3.5, high: 4.5},
+                'dancing': {low: 4.5, moderate: 6, high: 7.5},
+                'hiking': {low: 5, moderate: 7, high: 9}
+            };
+            
+            // Ortalama 70 kg bir kişi için kalori hesabı
+            // Kalori = MET * 3.5 * (kişi ağırlığı kg) / 200 * dakika
+            const weight = 70; // Örnek ağırlık, gerçek uygulamada kullanıcı ağırlığı alınabilir
+            const met = metValues[exerciseType][intensity];
+            const caloriesBurned = Math.round(met * 3.5 * weight / 200 * duration);
+            
+            // Eşdeğer yiyecek hesapla
+            const foodEquivalent = calculateFoodEquivalent(caloriesBurned);
+            
+            document.getElementById('burned-calories').textContent = caloriesBurned;
+            document.getElementById('food-equivalent').textContent = foodEquivalent;
+            document.getElementById('calorie-burn-result').style.display = 'block';
+        }
+        
+        function calculateFoodEquivalent(calories) {
+            // Basit bir eşdeğer yiyecek hesabı
+            if (calories < 100) {
+                return '1 elma (80 kcal)';
+            } else if (calories < 200) {
+                return '1 muz (105 kcal)';
+            } else if (calories < 300) {
+                return '1 yumurta ve 1 dilim tam tahıllı ekmek (yaklaşık 280 kcal)';
+            } else if (calories < 400) {
+                return '1 porsiyon yulaf ezmesi (yaklaşık 350 kcal)';
+            } else if (calories < 500) {
+                return '1 tavuklu sandviç (yaklaşık 450 kcal)';
+            } else {
+                return '1 hamburger (yaklaşık 550 kcal) veya daha fazlası';
+            }
+        }
+        
+        // Sağlıklı Alışveriş Listesi Oluşturucu
+        function generateShoppingList() {
+            const dietType = document.getElementById('diet-type').value;
+            const budget = document.getElementById('budget').value;
+            
+            // Alerjileri kontrol et
+            const allergies = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                if (['gluten', 'lactose', 'nuts', 'soy', 'shellfish', 'eggs'].includes(checkbox.id)) {
+                    allergies.push(checkbox.value);
+                }
+            });
+            
+            // Alışveriş listesi oluştur
+            const shoppingListContent = document.getElementById('shopping-list-content');
+            let html = '';
+            
+            // Diyet tipine göre başlık ve açıklama
+            html += `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--accent-color); margin-bottom: 0.5rem;">${getDietName(dietType)} İçin Alışveriş Listesi</h4>
+                    <p style="color: #ddd; margin-bottom: 1rem;">${getDietDescription(dietType)}</p>
+                    ${allergies.length > 0 ? `<p style="color: #ff9800;"><strong>Not:</strong> Bu liste, belirttiğiniz ${allergies.join(', ')} alerjileriniz dikkate alınarak hazırlanmıştır.</p>` : ''}
+                </div>
+            `;
+            
+            // Kategori bazlı alışveriş listesi
+            html += `<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">`;
+            
+            // Proteinler
+            html += `
+                <div class="glass-effect" style="padding: 1.5rem; border-radius: 10px;">
+                    <h5 style="color: var(--accent-color); margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">Protein Kaynakları</h5>
+                    <ul style="list-style-type: none; padding: 0;">
+                        ${getProteinList(dietType, allergies, budget).map(item => `<li style="margin-bottom: 0.5rem; color: #ddd;">✓ ${item}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            // Karbonhidratlar
+            html += `
+                <div class="glass-effect" style="padding: 1.5rem; border-radius: 10px;">
+                    <h5 style="color: var(--accent-color); margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">Karbonhidrat Kaynakları</h5>
+                    <ul style="list-style-type: none; padding: 0;">
+                        ${getCarbList(dietType, allergies, budget).map(item => `<li style="margin-bottom: 0.5rem; color: #ddd;">✓ ${item}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            // Yağlar
+            html += `
+                <div class="glass-effect" style="padding: 1.5rem; border-radius: 10px;">
+                    <h5 style="color: var(--accent-color); margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">Sağlıklı Yağlar</h5>
+                    <ul style="list-style-type: none; padding: 0;">
+                        ${getFatList(dietType, allergies, budget).map(item => `<li style="margin-bottom: 0.5rem; color: #ddd;">✓ ${item}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            // Meyve ve Sebzeler
+            html += `
+                <div class="glass-effect" style="padding: 1.5rem; border-radius: 10px;">
+                    <h5 style="color: var(--accent-color); margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.5rem;">Meyve ve Sebzeler</h5>
+                    <ul style="list-style-type: none; padding: 0;">
+                        ${getFruitsAndVeggiesList(dietType, budget).map(item => `<li style="margin-bottom: 0.5rem; color: #ddd;">✓ ${item}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            html += `</div>`;
+            
+            // Örnek öğün planı
+            html += `
+                <div style="margin-top: 2rem;" class="glass-effect">
+                    <h4 style="color: var(--accent-color); margin-bottom: 1rem; padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">Örnek Günlük Öğün Planı</h4>
+                    <div style="padding: 0 1.5rem 1.5rem;">
+                        <p style="margin-bottom: 0.8rem; color: #ddd;"><strong>Kahvaltı:</strong> ${getExampleMeal('breakfast', dietType, allergies)}</p>
+                        <p style="margin-bottom: 0.8rem; color: #ddd;"><strong>Ara Öğün:</strong> ${getExampleMeal('snack1', dietType, allergies)}</p>
+                        <p style="margin-bottom: 0.8rem; color: #ddd;"><strong>Öğle Yemeği:</strong> ${getExampleMeal('lunch', dietType, allergies)}</p>
+                        <p style="margin-bottom: 0.8rem; color: #ddd;"><strong>Ara Öğün:</strong> ${getExampleMeal('snack2', dietType, allergies)}</p>
+                        <p style="margin-bottom: 0.8rem; color: #ddd;"><strong>Akşam Yemeği:</strong> ${getExampleMeal('dinner', dietType, allergies)}</p>
+                    </div>
+                </div>
+            `;
+            
+            shoppingListContent.innerHTML = html;
+            document.getElementById('shopping-list-result').style.display = 'block';
+        }
+        
+        function getDietName(dietType) {
+            const diets = {
+                'balanced': 'Dengeli Beslenme',
+                'low-carb': 'Düşük Karbonhidratlı Beslenme',
+                'high-protein': 'Yüksek Proteinli Beslenme',
+                'vegetarian': 'Vejetaryen Beslenme',
+                'vegan': 'Vegan Beslenme',
+                'keto': 'Ketojenik Beslenme'
+            };
+            
+            return diets[dietType] || dietType;
+        }
+        
+        function getDietDescription(dietType) {
+            const descriptions = {
+                'balanced': 'Dengeli oranlarda protein, karbonhidrat ve yağ içeren, genel sağlığı destekleyen bir beslenme düzeni.',
+                'low-carb': 'Karbonhidrat miktarı sınırlandırılmış, protein ve sağlıklı yağlar ağırlıklı bir beslenme düzeni.',
+                'high-protein': 'Kas gelişimi ve onarımını destekleyen, protein oranı yüksek bir beslenme düzeni.',
+                'vegetarian': 'Et tüketilmeyen ancak süt ürünleri ve yumurta içerebilen bitki bazlı beslenme düzeni.',
+                'vegan': 'Hiçbir hayvansal ürün içermeyen tamamen bitki bazlı beslenme düzeni.',
+                'keto': 'Çok düşük karbonhidrat, orta düzey protein ve yüksek yağ içeren, vücudu ketoz durumuna sokan beslenme düzeni.'
+            };
+            
+            return descriptions[dietType] || '';
+        }
+        
+        function getProteinList(dietType, allergies, budget) {
+            let proteins = [];
+            
+            // Diyet tipine göre protein kaynakları
+            if (dietType === 'vegan') {
+                proteins = [
+                    'Tofu', 'Tempeh', 'Nohut', 'Mercimek', 'Fasulye', 
+                    'Kinoa', 'Chia tohumu', 'Kenevir tohumu', 'Badem', 'Fındık'
+                ];
+            } else if (dietType === 'vegetarian') {
+                proteins = [
+                    'Yumurta', 'Peynir', 'Lor peyniri', 'Yoğurt', 'Süt', 
+                    'Tofu', 'Nohut', 'Mercimek', 'Badem', 'Ceviz'
+                ];
+            } else if (dietType === 'keto') {
+                proteins = [
+                    'Yumurta', 'Somon', 'Dana eti', 'Tavuk göğsü', 'Hindi eti',
+                    'Ton balığı', 'Peynir', 'Lor peyniri', 'Fındık', 'Badem'
+                ];
+            } else {
+                proteins = [
+                    'Tavuk göğsü', 'Yumurta', 'Somon', 'Ton balığı', 'Dana eti',
+                    'Hindi eti', 'Lor peyniri', 'Nohut', 'Mercimek', 'Yoğurt'
+                ];
+            }
+            
+            // Alerjilere göre filtreleme
+            if (allergies.includes('eggs')) {
+                proteins = proteins.filter(item => item !== 'Yumurta');
+            }
+            if (allergies.includes('shellfish')) {
+                proteins = proteins.filter(item => !['Karides', 'Istakoz', 'Midye'].includes(item));
+            }
+            if (allergies.includes('nuts')) {
+                proteins = proteins.filter(item => !['Badem', 'Fındık', 'Ceviz', 'Yer fıstığı'].includes(item));
+            }
+            if (allergies.includes('soy')) {
+                proteins = proteins.filter(item => !['Tofu', 'Tempeh'].includes(item));
+            }
+            if (allergies.includes('lactose')) {
+                proteins = proteins.filter(item => !['Peynir', 'Lor peyniri', 'Yoğurt', 'Süt'].includes(item));
+            }
+            
+            // Bütçeye göre ayarlama
+            if (budget === 'economy') {
+                proteins = proteins.filter(item => !['Somon', 'Dana eti', 'Istakoz'].includes(item));
+                proteins.push('Yumurta', 'Mercimek', 'Nohut', 'Fasulye');
+            } else if (budget === 'premium') {
+                proteins = proteins.filter(item => !['Nohut', 'Mercimek'].includes(item));
+                proteins.push('Organik tavuk', 'Organik yumurta', 'Yaban somon', 'Organik süt ürünleri');
+            }
+            
+            return proteins.slice(0, 8); // En fazla 8 öğe döndür
+        }
+        
+        function getCarbList(dietType, allergies, budget) {
+            let carbs = [];
+            
+            // Diyet tipine göre karbonhidrat kaynakları
+            if (dietType === 'keto' || dietType === 'low-carb') {
+                carbs = [
+                    'Avokado', 'Brokoli', 'Karnabahar', 'Ispanak', 'Salatalık',
+                    'Kabak', 'Mantar', 'Kuşkonmaz', 'Yeşil fasulye', 'Patlıcan'
+                ];
+            } else {
+                carbs = [
+                    'Yulaf ezmesi', 'Kahverengi pirinç', 'Kinoa', 'Tam tahıllı makarna', 'Tam tahıllı ekmek',
+                    'Tatlı patates', 'Bulgur', 'Mısır', 'Esmer pirinç', 'Bakliyatlar'
+                ];
+            }
+            
+            // Alerjilere göre filtreleme
+            if (allergies.includes('gluten')) {
+                carbs = carbs.filter(item => !['Tam tahıllı ekmek', 'Tam tahıllı makarna', 'Bulgur', 'Yulaf ezmesi'].includes(item));
+                carbs.push('Glutensiz ekmek', 'Glutensiz makarna', 'Patates', 'Mısır');
+            }
+            
+            // Bütçeye göre ayarlama
+            if (budget === 'economy') {
+                carbs = carbs.filter(item => !['Kinoa', 'Glutensiz özel ürünler'].includes(item));
+                carbs.push('Patates', 'Pirinç', 'Makarna');
+            } else if (budget === 'premium') {
+                carbs.push('Organik kinoa', 'Organik tam tahıllı ürünler', 'Egzotik tahıllar');
+            }
+            
+            return carbs.slice(0, 8); // En fazla 8 öğe döndür
+        }
+        
+        function getFatList(dietType, allergies, budget) {
+            let fats = [
+                'Zeytinyağı', 'Avokado', 'Hindistan cevizi yağı', 'Keten tohumu', 'Chia tohumu',
+                'Fındık', 'Badem', 'Ceviz', 'Kaju', 'Somon'
+            ];
+            
+            // Diyet tipine göre düzenleme
+            if (dietType === 'keto') {
+                fats.push('Tereyağı', 'Krema', 'Lor peyniri');
+            }
+            
+            // Alerjilere göre filtreleme
+            if (allergies.includes('nuts')) {
+                fats = fats.filter(item => !['Fındık', 'Badem', 'Ceviz', 'Kaju'].includes(item));
+            }
+            
+            // Bütçeye göre ayarlama
+            if (budget === 'economy') {
+                fats = fats.filter(item => !['Somon', 'Organik yağlar'].includes(item));
+                fats.push('Ayçiçek yağı', 'Yumurta');
+            } else if (budget === 'premium') {
+                fats.push('Organik zeytinyağı', 'Organik hindistan cevizi yağı', 'Yüksek kaliteli fındık yağları');
+            }
+            
+            return fats.slice(0, 8); // En fazla 8 öğe döndür
+        }
+        
+        function getFruitsAndVeggiesList(dietType, budget) {
+            let items = [
+                'Ispanak', 'Brokoli', 'Karnabahar', 'Domates', 'Salatalık',
+                'Biber', 'Havuç', 'Soğan', 'Elma', 'Muz',
+                'Portakal', 'Üzüm', 'Çilek', 'Yaban mersini', 'Kivi'
+            ];
+            
+            // Diyet tipine göre düzenleme
+            if (dietType === 'keto' || dietType === 'low-carb') {
+                items = items.filter(item => !['Muz', 'Üzüm', 'Portakal', 'Elma'].includes(item));
+                items.push('Avokado', 'Yeşil yapraklı sebzeler', 'Kabak', 'Patlıcan');
+            }
+            
+            // Bütçeye göre ayarlama
+            if (budget === 'economy') {
+                items = items.filter(item => !['Yaban mersini', 'Kivi', 'Egzotik meyveler'].includes(item));
+                items.push('Mevsim sebzeleri', 'Mevsim meyveleri', 'Lahana', 'Patates');
+            } else if (budget === 'premium') {
+                items.push('Organik meyveler', 'Organik sebzeler', 'Egzotik meyveler', 'Taze otlar');
+            }
+            
+            return items.slice(0, 10); // En fazla 10 öğe döndür
+        }
+        
+        function getExampleMeal(mealType, dietType, allergies) {
+            // Örnek öğünler - gerçek bir uygulamada daha kapsamlı bir sistem olabilir
+            const meals = {
+                'balanced': {
+                    'breakfast': 'Yulaf ezmesi, muz ve badem sütü ile',
+                    'snack1': '1 elma ve 10 badem',
+                    'lunch': 'Tavuk göğsü salatası, tam tahıllı ekmek',
+                    'snack2': 'Yoğurt ve çilek',
+                    'dinner': 'Izgara somon, kinoa ve sebzeler'
+                },
+                'low-carb': {
+                    'breakfast': 'Omlet (2 yumurta, peynir, ıspanak)',
+                    'snack1': 'Lor peyniri ve salatalık',
+                    'lunch': 'Ton balıklı salata (yeşillikler, avokado)',
+                    'snack2': '10 badem ve 1 dilim peynir',
+                    'dinner': 'Izgara et, buharda sebzeler'
+                },
+                'high-protein': {
+                    'breakfast': 'Protein shake, yulaf ezmesi ve muz',
+                    'snack1': 'Proteinli yoğurt',
+                    'lunch': 'Tavuk göğsü, kahverengi pirinç ve sebzeler',
+                    'snack2': 'Katı yumurta (2 adet)',
+                    'dinner': 'Izgara somon, tatlı patates ve brokoli'
+                },
+                'vegetarian': {
+                    'breakfast': 'Yulaf ezmesi, meyve ve süt',
+                    'snack1': 'Yoğurt ve meyve',
+                    'lunch': 'Mercimek çorbası, tam tahıllı ekmek',
+                    'snack2': 'Hummus ve havuç çubukları',
+                    'dinner': 'Falafel, bulgur ve sebzeli salata'
+                },
+                'vegan': {
+                    'breakfast': 'Tofu scramble ve avokado tost',
+                    'snack1': 'Meyve salatası ve chia tohumu',
+                    'lunch': 'Nohut köftesi ve yeşil salata',
+                    'snack2': 'Hummus ve sebze çubukları',
+                    'dinner': 'Mercimek köftesi, kinoa ve sebzeler'
+                },
+                'keto': {
+                    'breakfast': 'Avokado ve yumurta',
+                    'snack1': 'Lor peyniri ve ceviz',
+                    'lunch': 'Tavuk salatası (avokado, zeytinyağı)',
+                    'snack2': 'Sert peynir ve zeytin',
+                    'dinner': 'Izgara et ve tereyağlı sebzeler'
+                }
+            };
+            
+            // Alerjilere göre ayarlama
+            let meal = meals[dietType][mealType];
+            
+            if (allergies.includes('eggs') && meal.includes('yumurta')) {
+                meal = meal.replace(/yumurta|Omlet|scramble/gi, 'Tofu');
+            }
+            if (allergies.includes('nuts') && meal.includes('badem')) {
+                meal = meal.replace(/badem|ceviz|fındık/gi, 'chia tohumu');
+            }
+            if (allergies.includes('gluten') && meal.includes('ekmek')) {
+                meal = meal.replace(/ekmek|bulgur|yulaf/gi, 'glutensiz alternatifi');
+            }
+            if (allergies.includes('lactose') && (meal.includes('süt') || meal.includes('peynir') || meal.includes('yoğurt'))) {
+                meal = meal.replace(/süt|peynir|yoğurt|lor/gi, 'bitki bazlı alternatifi');
+            }
+            
+            return meal;
+        }
+        
+        // ParticlesJS eklemek için - Mouse hareketli efekt
+        document.addEventListener('DOMContentLoaded', function() {
+            // Particles.js benzeri bir efekt (basitleştirilmiş)
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const particlesContainer = document.getElementById('particles-js');
+            
+            if (particlesContainer) {
+                particlesContainer.appendChild(canvas);
+                
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                window.addEventListener('resize', function() {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                });
+                
+                // Parçacıklar için sınıf
+                class Particle {
+                    constructor() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = Math.random() * canvas.height;
+                        this.size = Math.random() * 3 + 1;
+                        this.speedX = Math.random() * 2 - 1;
+                        this.speedY = Math.random() * 2 - 1;
+                        this.color = `hsl(${Math.random() * 60 + 100}, 70%, 50%, ${Math.random() * 0.3 + 0.1})`; // Yeşil tonları
+                    }
+                    
+                    update() {
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+                        
+                        // Ekran sınırlarını kontrol et
+                        if (this.x > canvas.width || this.x < 0) {
+                            this.speedX = -this.speedX;
+                        }
+                        if (this.y > canvas.height || this.y < 0) {
+                            this.speedY = -this.speedY;
+                        }
+                    }
+                    
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fillStyle = this.color;
+                        ctx.fill();
+                    }
+                }
+                
+                const particles = [];
+                const particleCount = 50; // Parçacık sayısı
+                
+                function init() {
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push(new Particle());
+                    }
+                }
+                
+                function animate() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    for (let i = 0; i < particles.length; i++) {
+                        particles[i].update();
+                        particles[i].draw();
+                        
+                        // Parçacıkları birbirine bağlama
+                        for (let j = i; j < particles.length; j++) {
+                            const dx = particles[i].x - particles[j].x;
+                            const dy = particles[i].y - particles[j].y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance < 100) {
+                                ctx.beginPath();
+                                ctx.strokeStyle = `rgba(120, 220, 120, ${0.1 - distance/1000})`;
+                                ctx.lineWidth = 0.5;
+                                ctx.moveTo(particles[i].x, particles[i].y);
+                                ctx.lineTo(particles[j].x, particles[j].y);
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                    
+                    requestAnimationFrame(animate);
+                }
+                
+                init();
+                animate();
+            }
+        });
+    </script>
+</body>
+</html>
